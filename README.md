@@ -1,4 +1,7 @@
 # ZX-spectrum-512K-cartridge-Jose-Leandro
+
+PLEASE NOTE THAT THE LICENCE FILE ONLY APPLIES TO THE PYTHON FILES. I cannot lay any claim to the creation of the original ROM nor the cartridge design.
+
 512K ZX Spectrum multi cartridge
 This is a 512KB cartridge that can hold 10 ROM games. The cartridge is currently supplied by MyRetro https://myretrostore.co.uk/ and the original creator was Jose Leandro https://trastero.speccy.org/cosas/JL/JL.htm
 ![Capture](https://github.com/user-attachments/assets/e0884ec6-c728-441e-8619-a445717cfdd5)
