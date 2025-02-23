@@ -1,6 +1,15 @@
+#################################################################################
+#
+# This Python program displays a ZX Spectrum .scr as it would appear on the
+# ZX Spectrum
+#
+# Written by Alban Killingback 22/2/2025
+#################################################################################
+
 import numpy as np
 from PIL import Image, ImageTk
 import tkinter as tk
+from tkinter import ttk
 from tkinter import filedialog
 
 def load_spectrum_scr(filename):
@@ -64,26 +73,49 @@ def open_file():
         display_spectrum_scr(filename)
 
 def display_spectrum_scr(filename):
-    pixel_data, attr_data = load_spectrum_scr(filename)
-    image_data = apply_attributes(pixel_data, attr_data)
-    image = Image.fromarray(image_data, 'RGB')
-    image = image.resize((512, 384), Image.NEAREST)  # Scale up for visibility
-    img_tk = ImageTk.PhotoImage(image)
-    
-    label.config(image=img_tk)
-    label.image = img_tk
+    try:
+        pixel_data, attr_data = load_spectrum_scr(filename)
+        image_data = apply_attributes(pixel_data, attr_data)
+
+        # Create a bordered image (320x256)
+        bordered_image = np.zeros((256, 320, 3), dtype=np.uint8)  # Black background
+        bordered_image[32:224, 32:288] = image_data  # Place Spectrum screen inside
+
+        # Convert to PIL Image and scale up
+        image = Image.fromarray(bordered_image, 'RGB')
+        image = image.resize((640, 512), Image.NEAREST)  # Scale 2x for visibility
+        img_tk = ImageTk.PhotoImage(image)
+
+        label.config(image=img_tk)
+        label.image = img_tk
+    except Exception as e:
+        tk.messagebox.showerror("Error", f"Failed to load SCR file: {e}")
 
 def create_gui():
     global label
     root = tk.Tk()
     root.title("ZX Spectrum SCR Viewer")
+    root.geometry("640x580")
     
-    btn_open = tk.Button(root, text="Open .SCR File", command=open_file)
-    btn_open.pack()
-    
+    # Create a frame for buttons
+    button_frame = tk.Frame(root)
+    button_frame.pack(pady=10)  # Add padding to separate from image
+
+    style = ttk.Style()
+    style.configure('TButton', font=('Helvetica', 12), padding=10)
+
+    # Open button
+    btn_open = ttk.Button(button_frame, text="Open .SCR File", command=open_file)
+    btn_open.pack(side=tk.LEFT, padx=10)  # Place side by side
+
+    # Exit button
+    btn_close = ttk.Button(button_frame, text="Exit", command=root.destroy)
+    btn_close.pack(side=tk.LEFT, padx=10)
+
+    # Label for displaying image
     label = tk.Label(root)
     label.pack()
-    
+
     root.mainloop()
 
 if __name__ == "__main__":
