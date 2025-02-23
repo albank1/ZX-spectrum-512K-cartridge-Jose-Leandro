@@ -1,3 +1,13 @@
+#################################################################################
+#
+# This Python program converts a text file to a ZX Spectrum screen image
+# The file has to be called menu.txt and it creates a menu.scr file
+# The form of the menu.txt for creating this cartridge should be:
+# Title with the next lines listing options for pressing A to O keys
+#
+# Written by Alban Killingback 22/2/2025
+################################################################################
+
 import sys
 import struct
 import numpy as np
@@ -71,8 +81,9 @@ ZX_FONT = {
     'y': [0x00, 0x66, 0x66, 0x3E, 0x06, 0x06, 0x7C, 0x00],
     'z': [0x00, 0x7E, 0x0C, 0x18, 0x30, 0x60, 0x7E, 0x00],
     '-': [0x00, 0x00, 0x00, 0x7E, 0x00, 0x00, 0x00, 0x00],
-    ' ': [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]}
-
+    ' ': [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],
+    '"': [0x00, 0x66, 0x66, 0x24, 0x00, 0x00, 0x00, 0x00]
+}
 # Background is now set to black in the attribute memory
 ATTR_MEMORY = [BLACK] * ATTRIBUTE_MEMORY_SIZE
 
@@ -88,7 +99,11 @@ def text_to_scr(text, output_file):
     # Create an empty screen buffer
     screen_data = np.zeros((192, 32), dtype=np.uint8)
     attribute_data = np.full((24, 32), BLACK+WHITE, dtype=np.uint8)  # Default attribute color from sample file
-    attribute_data [0,0:31] = BLACK+RED
+    attribute_data[0,0:29] = BLACK+RED
+    screen_data[:,30:32] = 0x0F
+    attribute_data[:,30] = 0x56
+    attribute_data[:,31] = 0x65
+
     # Draw text using the ZX Spectrum font
     x, y = 0, 0
     for char in text:
@@ -121,12 +136,17 @@ def text_to_scr(text, output_file):
     print(f"SCR file saved as {output_file}")
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: python txt_to_scr.py input.txt output.scr")
-        sys.exit(1)
+    # Check arguments
+    #if len(sys.argv) != 3:
+    #    print("Usage: python txt_to_scr.py input.txt output.scr")
+    #    sys.exit(1)
     
     # Read text file
-    with open(sys.argv[1], "r", encoding="utf-8") as file:
-        text_content = file.read()
+    #with open(sys.argv[1], "r", encoding="utf-8") as file:
+    #    text_content = file.read()
     
-    text_to_scr(text_content, sys.argv[2])
+    #text_to_scr(text_content, sys.argv[2])
+
+    with open("menu.txt", "r", encoding="utf-8") as file:
+        text_content = file.read()
+    text_to_scr(text_content, "menu.scr")
