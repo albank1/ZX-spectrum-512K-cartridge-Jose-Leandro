@@ -1,0 +1,17 @@
+ROM Compilation
+
+ "A" - Manic Miner
+ "B" - Jet Set Willy
+ "C" - Death Chase
+ "D" - Horace and the Spiders
+ "E" - Hungry Horace
+ "F" - Jetpac
+ "G" - Planetoids
+ "H" - Psst
+ "I" - Space Raiders
+ "J" - Tranz am
+ "K" - Arcadia
+ "L" - Galaxian
+ "M" - Molar Maul
+ "N" - Mr Wong's Loopy Laundry
+ "O" - Pheenix
