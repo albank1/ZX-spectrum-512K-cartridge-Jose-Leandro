@@ -18,6 +18,11 @@ Next I use ZX Paintbrush https://sourcesolutions.itch.io/zx-paintbrush to conver
 
 To create the final ROM file I have just been using the software that came with the TL866 chip programmer, loading the orignal creators rom image, insert the .SCR into 00500h and then inserting the games roms into 04000h ect
 
-I am now working on a way to create your own ROM.
-Txt2Scr.py is a Python program that takes a text file and creates a .SCR file.
+I have now written 3 programs to help create your own ROM
+Txt2Scr.py is a Python program that takes a text file and creates a .SCR file. The text files has to be called menu.txt and creates menu.scr
+
 ZXscrDisplay GUI.py is a Python program to display this as it would be shown on the ZX Spectrum.
+
+ZXCreateROM.py takes the original ROM and inserts the menu.scr to 0x0500 and will insert ROM games A.rom, B.rom, C.rom. With a little modification it can be changed to input all rom games from A.rom to O.rom
+
+I have uploaded example menu.txt, menu.scr and a final compilation.
